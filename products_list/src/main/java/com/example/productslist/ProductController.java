@@ -22,6 +22,8 @@ public class ProductController {
         
         // Load the file from classpath
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("products.json");
+        // logger.info("Current classpath: " + System.getProperty("java.class.path"));
+
         if (inputStream == null) {
             throw new IOException("Unable to find products.json in classpath");
         }

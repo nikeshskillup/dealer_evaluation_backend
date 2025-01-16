@@ -1,11 +1,14 @@
-# Use a base image with JDK installed
-FROM openjdk:11-jre-slim
-
+# Use an official OpenJDK image as the base image
+FROM openjdk:17-jdk-slim
+ 
 # Set the working directory inside the container
 WORKDIR /app
-
-# Copy the compiled jar file from target folder
-COPY target/productcomparison-0.0.1-SNAPSHOT.jar productcomparison.jar
-
-# Run the application
-CMD ["java", "-jar", "productcomparison.jar"]
+ 
+# Copy the built JAR file into the container
+COPY target/products_list-0.0.1-SNAPSHOT.war app.war
+ 
+# Expose the port the application will run on
+EXPOSE 5000
+ 
+# Command to run the application
+ENTRYPOINT ["java", "-jar", "app.war"]

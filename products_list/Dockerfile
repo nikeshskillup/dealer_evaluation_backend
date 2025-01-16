@@ -29,4 +29,4 @@ COPY --from=build /app/target/products_list-0.0.1-SNAPSHOT.war /app/products_lis
 EXPOSE 5000
 
 # Command to run the application
-CMD ["java", "-jar", "/products_list-0.0.1-SNAPSHOT.war"]
+CMD ["java", "-jar", "/app/products_list-0.0.1-SNAPSHOT.war"]

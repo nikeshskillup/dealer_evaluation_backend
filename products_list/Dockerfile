@@ -8,7 +8,7 @@ WORKDIR /app
 COPY target/products_list-0.0.1-SNAPSHOT.war app.war
  
 # Expose the port the application will run on
-EXPOSE 8080
+EXPOSE 5000
  
 # Command to run the application
 ENTRYPOINT ["java", "-jar", "app.war"]

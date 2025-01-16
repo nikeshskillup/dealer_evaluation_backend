@@ -23,10 +23,10 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built jar file from the build container to the runtime container
-COPY --from=build /app/target/product_list-0.0.1-SNAPSHOT.jar /app/product_list-0.0.1-SNAPSHOT.jar
+COPY --from=build /target/product_list-0.0.1-SNAPSHOT.war /app/product_list-0.0.1-SNAPSHOT.war
 
 # Expose the application port (5000)
 EXPOSE 5000
 
 # Command to run the application
-CMD ["java", "-jar", "/app/product_list-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/product_list-0.0.1-SNAPSHOT.war"]

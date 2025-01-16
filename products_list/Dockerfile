@@ -1,12 +1,11 @@
-FROM python:3.8-slim-buster
+# Use a base image with JDK installed
+FROM openjdk:11-jre-slim
 
+# Set the working directory inside the container
+WORKDIR /app
 
-WORKDIR /python-docker
+# Copy the compiled jar file from target folder
+COPY target/productcomparison-0.0.1-SNAPSHOT.jar productcomparison.jar
 
-COPY requirements.txt requirements.txt
-COPY products.json products.json
-RUN pip3 install -r requirements.txt
-
-COPY . .
-
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+# Run the application
+CMD ["java", "-jar", "productcomparison.jar"]

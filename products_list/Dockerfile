@@ -1,27 +1,32 @@
-# Use an official Maven image to build the application
+# Use the official Maven image to build the application
 FROM maven:4.0.0-openjdk-17-slim AS build
- 
-# Set the working directory for the build stage
+
+# Set the working directory in the container
 WORKDIR /app
- 
-# Copy the Maven project files into the container
-COPY pom.xml ./
+
+# Copy the pom.xml and other necessary files to the container
+COPY pom.xml .
+
+# Download dependencies (first step in the multi-stage build)
+RUN mvn dependency:go-offline
+
+# Copy the source code into the container
 COPY src ./src
- 
-# Run Maven to clean and package the application
-RUN mvn clean package
- 
-# Use an official OpenJDK runtime as the base image for the final stage
+
+# Build the application
+RUN mvn clean install
+
+# Use a smaller JRE image to run the application
 FROM openjdk:17-jdk-slim
- 
-# Set the working directory for the runtime stage
-WORKDIR /java-docker
- 
-# Copy the built WAR file from the build stage
-COPY --from=build /app/target/product_list-0.0.1-SNAPSHOT.war product_list.war
- 
-# Copy the products.json file into the runtime container
-COPY products.json products.json
- 
+
+# Set the working directory for the runtime container
+WORKDIR /app
+
+# Copy the built jar file from the build container to the runtime container
+COPY --from=build /app/target/product_list-0.0.1-SNAPSHOT.jar /app/product_list-0.0.1-SNAPSHOT.jar
+
+# Expose the application port
+EXPOSE 5000
+
 # Command to run the application
-CMD ["java", "-jar", "product_list.war"]
+CMD ["java", "-jar", "/app/product_list-0.0.1-SNAPSHOT.jar"]

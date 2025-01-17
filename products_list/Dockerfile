@@ -26,7 +26,7 @@ WORKDIR /app
 COPY --from=build /app/target/products_list-0.0.1-SNAPSHOT.war /app/products_list-0.0.1-SNAPSHOT.war
  
 # Expose the application port (5000)
-EXPOSE 8080
+EXPOSE 5000
  
 # Command to run the application
 CMD ["java", "-jar", "/app/products_list-0.0.1-SNAPSHOT.war"]
